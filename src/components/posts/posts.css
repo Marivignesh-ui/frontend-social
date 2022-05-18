@@ -1,0 +1,28 @@
+.posts {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  /* background-color: #f1f1f1; */
+  background-color: white;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgb(179, 179, 179);
+  border-radius: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .posts {
+    width: 100%;
+    margin: auto;
+    flex: none;
+  }
+}

@@ -1,0 +1,14 @@
+.home {
+  height: calc(100vh - 3rem);
+  display: flex;
+  max-width: 80%;
+  margin: auto;
+}
+@media only screen and (max-width: 600px) {
+  .home {
+    max-width: 100%;
+  }
+  .home > .sidebar {
+    display: none;
+  }
+}

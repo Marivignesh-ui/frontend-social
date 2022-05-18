@@ -1,0 +1,67 @@
+.ForumPage {
+  display: flex;
+  max-width: 80%;
+  margin: auto;
+}
+
+.ForumMainWrapper {
+  flex: 8;
+  padding: 3rem 1rem;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.ForumMain {
+  position: relative;
+}
+
+.coverImg {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.ProfileImg {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  top: 7.4rem;
+  left: 43%;
+  border: 0.2rem solid white;
+}
+
+.ProfileImg > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.ForumDesc {
+  color: slategrey;
+}
+
+.ForumMain > .posts {
+  height: unset;
+}
+
+.ForumRight {
+  flex: 4;
+}
+
+@media only screen and (max-width: 600px) {
+  .ForumPage {
+    max-width: 100%;
+  }
+  .ForumRight {
+    display: none;
+  }
+  .ProfileImg {
+    left: 1rem;
+  }
+}

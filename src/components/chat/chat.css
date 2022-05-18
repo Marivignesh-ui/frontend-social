@@ -1,0 +1,62 @@
+.chatInput {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: rgba(94, 90, 90, 0.452);
+}
+
+.emPickerButton {
+  margin-left: 1rem;
+  border: none;
+  background: rgb(197, 196, 196);
+  color: black;
+  font-size: x-large;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.emPickerButton:focus {
+  outline: none;
+}
+
+.emPicker {
+  position: absolute;
+  bottom: 3rem;
+}
+
+aside.emoji-picker-react {
+  height: 220px !important;
+}
+
+.chatInputText:focus {
+  outline: none;
+}
+
+.chatInputText {
+  width: 69%;
+  margin: 8px 10px;
+  border-radius: 0.2rem;
+  height: auto;
+  height: max-content;
+}
+
+.sendButton {
+  margin-left: 5px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  background-color: green;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

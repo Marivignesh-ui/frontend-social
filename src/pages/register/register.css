@@ -1,0 +1,149 @@
+.RegisterBody {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("https://images.pexels.com/photos/317355/pexels-photo-317355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+}
+.register {
+  height: calc(100vh);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.AppTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: 100;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: 1px solid rgba(214, 214, 214, 0.2);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.mainDiv {
+  display: flex;
+  /* border: 1px solid red; */
+}
+
+.quotesDivWrapper {
+  margin-right: 3rem;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quotesDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 1rem;
+  height: 21rem;
+  background-image: url("https://i.imgur.com/I9Ww3oe.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* border: 1px solid black; */
+  border-radius: 2rem;
+}
+
+.quote {
+  font-size: 3rem;
+  font-weight: 200;
+}
+
+.quote1 {
+  font-size: 2.5rem;
+  font-weight: 100;
+}
+
+.quote2 {
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+.registerDiv {
+  border-radius: 2rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+}
+
+.registerTitle {
+  font-size: 50px;
+}
+
+.registerForm {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.registerForm > label {
+  margin: 10px 0;
+}
+
+.registerInput {
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.registerInput:focus {
+  outline: none;
+}
+
+.registerButton {
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: teal;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.registerLoginButton {
+  position: absolute;
+  top: 0.8rem;
+  right: 2rem;
+  background-color: rgb(248, 94, 94);
+  cursor: pointer;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 500px) {
+  .quotesDivWrapper {
+    display: none;
+  }
+  .register {
+    display: block;
+  }
+  .mainDiv {
+    display: block;
+    padding-top: 5rem;
+  }
+  .registerDiv {
+    backdrop-filter: inherit;
+  }
+  .registerLoginButton {
+    top: 10rem;
+    right: 2rem;
+  }
+}
