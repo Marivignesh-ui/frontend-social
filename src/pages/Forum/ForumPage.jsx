@@ -1,4 +1,4 @@
-import Fuheader from "../../components/Fuheader";
+import Fuheader from "../../components/fuheader/Fuheader";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./ForumPage.css";

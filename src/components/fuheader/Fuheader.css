@@ -1,0 +1,14 @@
+.FollowingsContainer {
+  display: flex;
+}
+
+.Followingsuser {
+  padding: 1rem;
+}
+
+.FollowingsAvatar {
+  height: 5.5rem;
+  width: 5.5rem;
+  border-radius: 5px;
+  object-fit: cover;
+}

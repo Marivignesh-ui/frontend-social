@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -9,6 +10,11 @@ import ForumPage from "./pages/Forum/ForumPage";
 import User from "./pages/User/User";
 
 function App() {
+  useEffect(() => {
+    window.process = {
+      ...window.process,
+    };
+  }, []);
   const currentUser = false;
   return (
     <Router>

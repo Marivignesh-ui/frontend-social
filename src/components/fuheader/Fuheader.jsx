@@ -1,8 +1,36 @@
 /* eslint-disable react/prop-types */
-import Posts from "./posts/Posts";
+import Posts from "../posts/Posts";
+import "./Fuheader.css";
 
-export default function Fuheader({ source }) {
-  console.log(source);
+function Followings() {
+  return (
+    <div className="FollowingsContainer">
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+    </div>
+  );
+}
+
+export default function Fuheader({ source, contentobject }) {
+  console.log(source, contentobject);
   return (
     <div className="ForumMain">
       <img
@@ -34,6 +62,9 @@ export default function Fuheader({ source }) {
           veniam, animi commodi!
         </p>
       </div>
+      <br></br>
+      <p className="followingsTitle">Followings</p>
+      <Followings />
       <Posts />
     </div>
   );
