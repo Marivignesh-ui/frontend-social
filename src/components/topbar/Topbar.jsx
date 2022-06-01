@@ -25,6 +25,10 @@ export default function Topbar({ source }) {
         <div className="AppTitle1">Inter-Connect</div>
       </div>
       <div className="topRight">
+        <Link to={"/explore"}>
+          <i className="fab fa-wpexplorer"></i>
+          <p className="exploreLink">Explore</p>
+        </Link>
         <div className="search">
           <input
             type={"search"}

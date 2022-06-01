@@ -9,7 +9,7 @@ function ForumPage() {
       <Topbar source="forum" />
       <div className="ForumPage">
         <div className="ForumMainWrapper">
-          <Fuheader />
+          <Fuheader source="forum" />
         </div>
         <div className="ForumRight">
           <Sidebar source="forum" />

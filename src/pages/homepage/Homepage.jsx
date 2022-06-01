@@ -1,6 +1,7 @@
 import { useLocation } from "react-router";
 // import Header from "../../components/header/Header";
 import Posts from "../../components/posts/Posts";
+import PostUploader from "../../components/postuploader/PostUploader";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
 import "./homepage.css";
@@ -13,7 +14,12 @@ export default function Homepage() {
       <Topbar />
       {/* <Header /> */}
       <div className="home">
-        <Posts />
+        <div className="homemain">
+          <br></br>
+          <br></br>
+          <PostUploader />
+          <Posts />
+        </div>
         <Sidebar className="homeSidebar" />
       </div>
     </>

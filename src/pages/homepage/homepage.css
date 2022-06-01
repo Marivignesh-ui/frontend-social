@@ -1,7 +1,14 @@
 .home {
-  height: calc(100vh - 3rem);
+  height: calc(100vh - 4rem);
   display: flex;
   max-width: 80%;
+  margin: auto;
+}
+
+.homemain {
+  height: calc(100vh - 3.1rem);
+  overflow-y: scroll;
+  width: 70%;
   margin: auto;
 }
 @media only screen and (max-width: 600px) {

@@ -1,5 +1,7 @@
 .settings {
   display: flex;
+  max-width: 80%;
+  margin: auto;
 }
 
 .settingsWrapper {
@@ -98,4 +100,36 @@
 
 .settingsSubmitButton:hover {
   background-color: rgb(1, 114, 114);
+}
+
+.InterestList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.InterestList > li {
+  box-shadow: 1px 8px 33px -11px rgba(0, 0, 0, 0.47);
+  padding: 15px;
+  margin-right: 5px;
+  margin-top: 10px;
+}
+
+.InterestList > li:last-child {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Interestadd {
+  border: none;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
 }

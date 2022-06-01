@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import Posts from "../posts/Posts";
 import "./Fuheader.css";
+import PostUploader from "../postuploader/PostUploader";
 
 function Followings() {
+  const PF = process.env.PUBLIC_URL;
   return (
     <div className="FollowingsContainer">
       <div className="Followingsuser">
@@ -19,6 +21,46 @@ function Followings() {
         <img
           className="FollowingsAvatar"
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src={PF + "assets/person/no_avatar.png"}
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
+      <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src={PF + "assets/person/no_avatar.png"}
           alt=""
         />
         <center>
@@ -51,7 +93,13 @@ export default function Fuheader({ source, contentobject }) {
       <br></br>
       <div className="ForumInfo">
         <center>
-          <p>Forum Title</p>
+          <p className="ForumTitle">
+            Forum Title
+            <button className="FollowButton btn-10 custom-btn">
+              <i className="fa-solid fa-circle-plus"></i> &nbsp;
+              {source === "forum" ? "Join" : "Follow"}
+            </button>
+          </p>
           <span className="postDate">2 months ago</span>
         </center>
         <br></br>
@@ -63,8 +111,17 @@ export default function Fuheader({ source, contentobject }) {
         </p>
       </div>
       <br></br>
-      <p className="followingsTitle">Followings</p>
-      <Followings />
+      {source === "user" && (
+        <>
+          <p className="FollowingsTitle">Followings</p>
+          <br></br>
+          <Followings />
+        </>
+      )}
+      <hr></hr>
+      <br></br>
+      <br></br>
+      {source === "forum" && <PostUploader />}
       <Posts />
     </div>
   );

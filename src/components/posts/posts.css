@@ -1,10 +1,6 @@
 .posts {
-  width: 90%;
-  margin: auto;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  height: 100vh;
 }
 
 ::-webkit-scrollbar {

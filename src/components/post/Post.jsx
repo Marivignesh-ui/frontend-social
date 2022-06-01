@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Comment from "./Comment";
 import "./post.css";
 
 // eslint-disable-next-line react/prop-types
 export default function Post({ img }) {
+  const [comments, setcomments] = useState(false);
+  console.log(comments);
   return (
     <div className="post">
       <div className="PostOwner">
@@ -48,8 +52,15 @@ export default function Post({ img }) {
       <div className="LikesAndComments">
         <i className="far fa-thumbs-up"></i>
         <i className="far fa-comments"></i>
-        <p>23 Likes 51 Comments</p>
+        <p
+          onClick={() => {
+            setcomments(!comments);
+          }}
+        >
+          23 Likes 51 Comments
+        </p>
       </div>
+      {comments && <Comment />}
     </div>
   );
 }

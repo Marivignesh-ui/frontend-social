@@ -15,6 +15,7 @@
   flex-direction: column;
   align-items: center;
   width: 80%;
+  margin-top: 2rem;
 }
 
 .ForumList {
@@ -41,10 +42,15 @@
   margin-top: 1rem;
   display: flex;
   align-items: center;
-  -webkit-box-shadow: 1px 10px 9px -7px rgba(0, 0, 0, 0.9);
-  box-shadow: 1px 3px 9px -7px rgba(0, 0, 0, 0.9);
   padding: 0px 0.4rem;
   border-radius: 0.2rem;
+}
+
+.ForumWrapper:hover {
+  background-color: whitesmoke;
+  cursor: pointer;
+  -webkit-box-shadow: 1px 10px 9px -7px rgba(0, 0, 0, 0.9);
+  box-shadow: 1px 3px 9px -7px rgba(0, 0, 0, 0.9);
 }
 
 .ForumImg {

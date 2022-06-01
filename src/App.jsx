@@ -8,6 +8,7 @@ import Write from "./pages/write/Write";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ForumPage from "./pages/Forum/ForumPage";
 import User from "./pages/User/User";
+import Explore from "./pages/explore/Explore";
 
 function App() {
   useEffect(() => {
@@ -15,7 +16,9 @@ function App() {
       ...window.process,
     };
   }, []);
+
   const currentUser = false;
+
   return (
     <Router>
       <Switch>
@@ -29,6 +32,7 @@ function App() {
           {currentUser ? <Homepage /> : <Register />}
         </Route>
         <Route path="/login">{currentUser ? <Homepage /> : <Login />}</Route>
+        <Route path={"/explore"}>{currentUser ? <Explore /> : <Login />}</Route>
         <Route path="/post/:id">
           <Single />
         </Route>

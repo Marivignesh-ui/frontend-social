@@ -1,0 +1,101 @@
+.ExploreWrapper {
+  display: flex;
+  margin: auto;
+  max-width: 80%;
+}
+
+.ExploreMain {
+  flex: 8;
+  padding-left: 2rem;
+  height: calc(100vh - 3rem);
+  overflow-y: scroll;
+}
+
+.searchFilters {
+  display: flex;
+  justify-content: space-between;
+}
+
+.categspan {
+  margin: auto 1rem 1rem 2.7rem;
+}
+
+.categselect {
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.ForumListTitle {
+  font-size: xx-large;
+  font-weight: 200;
+  margin-bottom: 2rem;
+}
+
+.ForumSearch {
+  border: 1px solid grey;
+  padding: 4px;
+  border-radius: 3px;
+}
+
+.ExploreList {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.ExploreList > li {
+  display: flex;
+  border-top: 1px solid slategrey;
+  padding: 10px;
+}
+
+.ExploreListAvatar {
+  height: 5rem;
+  width: 9rem;
+  border-radius: 0.4rem;
+  object-fit: cover;
+}
+
+.ExploreListInfo {
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: -webkit-fill-available;
+}
+
+.ExploreListInfo > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ExploreForumTitle {
+  font-size: 1.3rem;
+  font-weight: 200;
+  padding: 10px;
+}
+
+.ExploreListInfo > div > p:nth-child(2) {
+  padding-left: 10px;
+  color: gray;
+}
+
+.ExploreListInfo > button {
+  height: 2rem;
+  margin: auto 10px auto auto;
+  border: none;
+  width: 130px;
+  height: 40px;
+  border-radius: 5px;
+  background: rgb(0, 172, 238);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 172, 238, 1) 0%,
+    rgba(2, 126, 251, 1) 100%
+  );
+  color: white;
+}
+
+.ExploreListInfo > button:hover {
+  cursor: pointer;
+  background: rgba(2, 126, 251, 1);
+}
