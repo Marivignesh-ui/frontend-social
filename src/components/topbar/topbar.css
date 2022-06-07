@@ -120,6 +120,28 @@
   outline: none;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  left:0;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .mobRightMenu {
   display: none;
 }
@@ -165,6 +187,12 @@
     height: 100%;
     width: 100%;
     transition: all 0.6s ease-in-out;
+  }
+
+  .tooltip {
+    position: absolute;
+    display: inline-block;
+    left: 10px;
   }
 
   #active:checked ~ .wrapper {

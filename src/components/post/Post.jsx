@@ -4,48 +4,56 @@ import Comment from "./Comment";
 import "./post.css";
 
 // eslint-disable-next-line react/prop-types
-export default function Post({ img }) {
+export default function Post({ img, userimg, username,  }) {
   const [comments, setcomments] = useState(false);
-  console.log(comments);
   return (
     <div className="post">
       <div className="PostOwner">
         <div>
           <img
             className="topImg"
-            src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+            src={userimg}
             alt=""
           ></img>
         </div>
-        <span className="userName">Username</span>
+        <span className="userName">{username}</span>
       </div>
       <img className="postImg" src={img} alt="" />
       <div className="postInfo">
         <div className="postCats">
           <span className="postCat">
             <Link className="link" to="/posts?cat=Music">
-              Music
+              web design
             </Link>
           </span>
           <span className="postCat">
             <Link className="link" to="/posts?cat=Music">
-              Life
+              responsive web
             </Link>
           </span>
         </div>
         <span className="postTitle">
           <Link to="/post/abc" className="link">
-            Lorem ipsum dolor sit amet
+            Best Web Development Practices
           </Link>
         </span>
         <hr />
         <span className="postDate">1 hour ago</span>
       </div>
       <p className="postDesc">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda
-        officia architecto deserunt deleniti? Labore ipsum aspernatur magnam
-        fugiat, reprehenderit praesentium blanditiis quos cupiditate ratione
-        atque, exercitationem quibusdam, reiciendis odio laboriosam?
+      1. Choose A Starting Strategy
+Most people will tell you to go mobile-first, but
+in reality, you should do whatever you feel more
+comfortable doing as long as your end result is
+a responsive website.
+These Are The Options You Have
+i. Mobile First
+Start small and scale up
+Media Queries will use (min-width)
+Desktop First
+ii. Start big and scale down
+Media Queries will use (max-width)
+Pick the one that works for you!
         &nbsp;&nbsp;
         <Link to="">Read More</Link>....
       </p>

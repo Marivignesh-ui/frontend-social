@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ForumPage from "./pages/Forum/ForumPage";
 import User from "./pages/User/User";
 import Explore from "./pages/explore/Explore";
+import { AuthContext } from "./context/AuthContext";
+import { Redirect } from "react-router-dom";
 
 function App() {
   useEffect(() => {
@@ -17,33 +19,31 @@ function App() {
     };
   }, []);
 
-  const currentUser = false;
-
+  const { token } = useContext(AuthContext);
+  
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <Homepage />
+          {token ? <Homepage /> : <Redirect to="/login" />}
         </Route>
         <Route path="/posts">
           <Homepage />
         </Route>
         <Route path="/register">
-          {currentUser ? <Homepage /> : <Register />}
+          {token ? <Redirect to="/" /> : <Register />}
         </Route>
-        <Route path="/login">{currentUser ? <Homepage /> : <Login />}</Route>
-        <Route path={"/explore"}>{currentUser ? <Explore /> : <Login />}</Route>
+        <Route path="/login">{token ? <Redirect to="/" /> : <Login />}</Route>
+        <Route path={"/explore"}>
+          {token ? <Explore /> : <Redirect to="/login" />}
+        </Route>
         <Route path="/post/:id">
           <Single />
         </Route>
-        <Route path="/write">{currentUser ? <Write /> : <Write />}</Route>
-        <Route path="/settings">
-          {currentUser ? <Settings /> : <Settings />}
-        </Route>
-        <Route path="/forum">
-          {currentUser ? <ForumPage /> : <ForumPage />}
-        </Route>
-        <Route path="/user">{currentUser ? <User /> : <User />}</Route>
+        <Route path="/write">{token ? <Write /> : <Write />}</Route>
+        <Route path="/settings">{token ? <Settings /> : <Settings />}</Route>
+        <Route path="/forum">{token ? <ForumPage /> : <ForumPage />}</Route>
+        <Route path="/user/:id">{token ? <User /> : <User />}</Route>
       </Switch>
     </Router>
   );

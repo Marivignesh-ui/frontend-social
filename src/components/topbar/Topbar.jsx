@@ -2,6 +2,8 @@
 import { Link } from "react-router-dom";
 import "./topbar.css";
 import SideBar from "../sidebar/Sidebar";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 function RightMenu({ source }) {
   return (
@@ -11,7 +13,15 @@ function RightMenu({ source }) {
   );
 }
 export default function Topbar({ source }) {
-  const user = true;
+  const {user,token,dispatch} = useContext(AuthContext);
+
+  const logout = () => {
+    console.log("clicked Logout");
+    localStorage.removeItem("authtoken");
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
+  }
+
   return (
     <div className="top">
       <div className="topLeft">
@@ -37,14 +47,20 @@ export default function Topbar({ source }) {
           />
           <i className="topSearchIcon fas fa-search"></i>
         </div>
-        {user ? (
-          <Link className="link" to="/settings">
-            <img
-              className="topImg"
-              src="https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-            />
-          </Link>
+        {token ? (
+          <>
+            <Link className="link" to="/settings">
+              <img
+                className="topImg"
+                src={`${process.env.REACT_APP_IMAGEKITURLENDPOINT}/imgonline-com-ua-CompressToSize-WOu5OQfy6V2_6emrayipv.jpg`}
+                alt=""
+              />
+            </Link>
+            <div className="tooltip" onClick={logout}>
+              <i className="fas fa-sign-out-alt" style={{ color: "white" }}></i>
+              <span className="tooltiptext">logout</span>
+            </div>
+          </>
         ) : (
           <ul className="topList">
             <li className="topListItem">

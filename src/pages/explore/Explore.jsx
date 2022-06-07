@@ -51,12 +51,12 @@ function Explore() {
             <li className="ExploreListItem">
               <img
                 className="ExploreListAvatar"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXxAYV-wgGrMrsCtEaJ-2lsKXcvdx2tbL3CA&usqp=CAU"
+                src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/web-development_Ap6b_bSMM.jpeg"}
                 alt=""
               />
               <div className="ExploreListInfo">
                 <div>
-                  <p className="ExploreForumTitle">Programmers World</p>
+                  <p className="ExploreForumTitle">Web dev Community</p>
                   <p>45 Members</p>
                 </div>
                 <button>Join Forum</button>
@@ -65,12 +65,12 @@ function Explore() {
             <li className="ExploreListItem">
               <img
                 className="ExploreListAvatar"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXxAYV-wgGrMrsCtEaJ-2lsKXcvdx2tbL3CA&usqp=CAU"
+                src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/full-stack-web-developer_Bd2OUDJN9.png"}
                 alt=""
               />
               <div className="ExploreListInfo">
                 <div>
-                  <p className="ExploreForumTitle">Programmers World</p>
+                  <p className="ExploreForumTitle">Full stack developers</p>
                   <p>45 Members</p>
                 </div>
                 <button className="">Join Forum</button>

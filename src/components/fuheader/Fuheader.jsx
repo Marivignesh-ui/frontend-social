@@ -1,16 +1,89 @@
-/* eslint-disable react/prop-types */
 import Posts from "../posts/Posts";
 import "./Fuheader.css";
 import PostUploader from "../postuploader/PostUploader";
+import axios from "axios";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import { notify } from "../notify/notify";
 
-function Followings() {
-  const PF = process.env.PUBLIC_URL;
+function SingleUserFollowing({id, token}) {
+  const headers = {
+    "x-access-token": token,
+  };
+  const [followinguser, setFollowingUser] = useState({
+    imageUrl: "",
+    name: "",
+  });
+  useEffect(() => {
+    async function fetchfollowings(id) {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKENDPOINT}users/user/${id}`,
+          { headers: headers }
+        );
+        if (res.data.ok) {
+          setFollowingUser({
+            imageUrl: res.data.responseObject.profilePicture,
+            name: res.data.responseObject.username,
+          });
+        } else {
+          notify(false, "Error Occured While fetching user");
+        }
+      } catch (error) {
+        notify(false, "Network Error");
+      }
+    }
+  
+    fetchfollowings(id);  
+  }, []);
+
+  return (
+    <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src={process.env.REACT_APP_IMAGEKITURLENDPOINT + followinguser.imageUrl}
+          alt=""
+        />
+        <center>
+          <p>{followinguser.name}</p>
+        </center>
+    </div>
+  )
+}
+
+function Followings({ids}) {
+  const {token} = useContext(AuthContext);
+  console.log(ids);
   return (
     <div className="FollowingsContainer">
+      {
+      ids.map((userId) => {
+        return (
+          <Link
+            to={`/user/${userId}`}
+            key={userId}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <SingleUserFollowing id={userId} token={token} />
+          </Link>
+        );
+      })
+      }
+      {/* <div className="Followingsuser">
+        <img
+          className="FollowingsAvatar"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
+          alt=""
+        />
+        <center>
+          <p>username</p>
+        </center>
+      </div>
       <div className="Followingsuser">
         <img
           className="FollowingsAvatar"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
+          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/no_avatar_TYi8DXgbZ.png"}
           alt=""
         />
         <center>
@@ -30,49 +103,29 @@ function Followings() {
       <div className="Followingsuser">
         <img
           className="FollowingsAvatar"
-          src={PF + "assets/person/no_avatar.png"}
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div>
-      <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div>
-      <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
           src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
           alt=""
         />
         <center>
           <p>username</p>
         </center>
-      </div>
-      <div className="Followingsuser">
+      </div> */}
+      {/* <div className="Followingsuser">
         <img
           className="FollowingsAvatar"
-          src={PF + "assets/person/no_avatar.png"}
+          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/no_avatar_TYi8DXgbZ.png"}
           alt=""
         />
         <center>
           <p>username</p>
         </center>
-      </div>
+      </div> */}
     </div>
   );
 }
 
-export default function Fuheader({ source, contentobject }) {
-  console.log(source, contentobject);
+export default function Fuheader({ source, contentObject }) {
+  console.log("ContentObject: ",contentObject);
   return (
     <div className="ForumMain">
       <img
@@ -82,7 +135,7 @@ export default function Fuheader({ source, contentobject }) {
       />
       <div className="ProfileImg">
         <img
-          src="https://miro.medium.com/max/1187/1*0FqDC0_r1f5xFz3IywLYRA.jpeg"
+          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+contentObject.profilePicture}
           alt=""
         />
       </div>
@@ -94,7 +147,7 @@ export default function Fuheader({ source, contentobject }) {
       <div className="ForumInfo">
         <center>
           <p className="ForumTitle">
-            Forum Title
+            {contentObject.username}
             <button className="FollowButton btn-10 custom-btn">
               <i className="fa-solid fa-circle-plus"></i> &nbsp;
               {source === "forum" ? "Join" : "Follow"}
@@ -104,10 +157,7 @@ export default function Fuheader({ source, contentobject }) {
         </center>
         <br></br>
         <p className="ForumDesc">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad tempora
-          illo beatae numquam, labore nihil voluptas eveniet, blanditiis ipsum,
-          repellat reiciendis? Ullam blanditiis libero et neque cupiditate
-          veniam, animi commodi!
+          {contentObject.desc}
         </p>
       </div>
       <br></br>
@@ -115,7 +165,7 @@ export default function Fuheader({ source, contentobject }) {
         <>
           <p className="FollowingsTitle">Followings</p>
           <br></br>
-          <Followings />
+          <Followings ids={contentObject.followings}/>
         </>
       )}
       <hr></hr>

@@ -7,6 +7,20 @@
   background-size: cover;
 }
 
+.successToast {
+  background-color: green;
+  height: 3rem;
+  min-width: 20rem;
+  color: white;
+}
+
+.failureToast {
+  background: red;
+  height: 3rem;
+  min-width: 20rem;
+  color: white;
+}
+
 .login {
   height: calc(100vh - 60px);
   display: flex;
@@ -76,6 +90,11 @@
   border: none;
   border-radius: 10px;
   text-align: center;
+}
+
+.loginButtonloading {
+  cursor:not-allowed;
+  background-color: rgba(248, 94, 94, 0.142);
 }
 
 .loginRegisterButton {

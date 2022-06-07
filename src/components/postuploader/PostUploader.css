@@ -24,13 +24,25 @@
   margin-right: 10px;
 }
 
+.shareInputWrapper {
+  width: 100%
+}
+
 .shareInput {
   border: none;
-  width: 80%;
+  border-bottom:groove;
+  padding: 1rem 1rem 1rem 0.2rem;
+  width: 90%;
 }
 
 .shareInput:focus {
   outline: none;
+  box-shadow: 8px 8px 12px -6px rgba(0,0,0,0.75);
+}
+
+.shareInputWrapper > .BlogTagInput {
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .shareHr {
@@ -53,6 +65,20 @@
   align-items: center;
   margin-right: 15px;
   cursor: pointer;
+  position: relative;
+}
+
+.imageInputLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.shareOption > input[type="file"] {
+  display: none;
+  /* position: absolute;
+  top: 1rem;
+  left: 1rem; */
 }
 
 .shareIcon {
@@ -81,19 +107,38 @@
 }
 
 .shareImgContainer {
-  padding: 0 20px 10px 20px;
+  margin: 30px 20px 10px 20px;
   position: relative;
+  display: flex;
+  overflow-x: scroll;
+  /* background-color: rgba(94, 90, 90, 0.152); */
+  padding-bottom: 20px;
+}
+
+.imagepreview {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  box-shadow: 1px 0px 7px 1px rgba(87,87,87,0.75);
+  margin: 0 10px;
+  display: block;
 }
 
 .shareImg {
-  width: 100%;
-  object-fit: cover;
+  width: inherit;
+  height: inherit;
+  object-fit: cover;  
 }
 
 .shareCancelImg {
   position: absolute;
-  top: 0;
-  right: 20px;
+  top: 5px;
+  right: 10px;
   cursor: pointer;
   opacity: 0.7;
+  border-radius: 50%;
+  border: none;
+  font-size: x-large;
+  background: none;
 }
+
