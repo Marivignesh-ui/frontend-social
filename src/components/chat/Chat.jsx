@@ -54,7 +54,7 @@ const Chat = ({ conversationId, otheruser }) => {
   const socket = useRef();
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io(process.env.REACT_APP_CHATENDPOINT);
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
         sender: data.senderId,

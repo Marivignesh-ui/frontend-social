@@ -19,7 +19,7 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef();
 
   const setsocket = () => {
-    socket = io("http://localhost:8000");
+    socket = io(process.env.REACT_APP_VIDBACKENDPOINT);
   };
 
   useEffect(() => {

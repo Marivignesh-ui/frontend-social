@@ -15,7 +15,7 @@ export default function Login() {
     dispatch({ type: "LOGIN_START" });
     try {
       const res = await axios.post(
-        "http://localhost:8800/api/auth/login",
+        `${process.env.REACT_APP_BACKENDPOINT}auth/login`,
         credential,
         { validateStatus: () => true }
       );
