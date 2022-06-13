@@ -31,7 +31,40 @@ const AuthReducer = (state, action) => {
         isFetching: false,
         error: false
       }
-    
+    case "FOLLOW":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followings: [...state.user.followings, action.payload],
+        },
+      };
+    case "JOIN_FORUM":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          forumsJoined: [...state.user.forumsJoined, action.payload]
+        }
+      }
+    case "UNFOLLOW":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          followings: state.user.followings.filter(
+            (following) => following !== action.payload
+          ),
+        },
+      };
+    case "LEAVE_FORUM":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          forumsJoined: state.user.forumsJoined.filter((forum) => forum !== action.payload)
+        }
+      }
     default:
       return state;
   }

@@ -7,12 +7,13 @@ import Chat from "../../components/chat/Chat";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { notify } from "../../components/notify/notify";
+import { Toaster } from "react-hot-toast";
 
 export default function User() {
   const { id } = useParams();
   const {token,user} = useContext(AuthContext);
   const [correspondingUser,setCorrespondingUser]  = useState(null);
-  const [currentchat,setCurrentChat] = useState(null);
+  const [currentchat,setCurrentChat] = useState(null); 
 
   const fetchuser = async (id,headers) => {
     console.log("called fetchuser");
@@ -58,6 +59,7 @@ export default function User() {
 
   return (
     <>
+      <Toaster />
       <Topbar />
       <div className="userPage">
         <div className="userMainWrapper">

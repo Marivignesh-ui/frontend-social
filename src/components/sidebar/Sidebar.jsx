@@ -5,10 +5,64 @@ import { notify } from "../notify/notify";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-function Forum({ forum }) {
+function SingleForum({ id, token }) {
+  const headers = {
+    "x-access-token": token,
+  };
+  const [forumsJoined, setForumsJoined] = useState({
+    imageUrl: "",
+    name: "",
+  });
+  useEffect(() => {
+    async function fetchforum(id) {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKENDPOINT}forums/forum/${id}`,
+          { headers: headers }
+        );
+        if (res.data.ok) {
+          setForumsJoined({
+            imageUrl: res.data.responseObject.displayPicUrl,
+            name: res.data.responseObject.forumName,
+          });
+        } else {
+          notify(false, "Error Occured While fetching Forum");
+        }
+      } catch (error) {
+        notify(false, "Network Error");
+      }
+    }
+
+    fetchforum(id);
+  }, []);
+
+  return (
+    <div className="ForumWrapper">
+      <img
+        className="ForumImg"
+        src={process.env.REACT_APP_IMAGEKITURLENDPOINT + forumsJoined.imageUrl}
+        alt=""
+      />
+      <p>{forumsJoined.name}</p>
+    </div>
+  );
+}
+
+function Forum({ forumIdList, token }) {
   return (
     <>
-      <div className="ForumWrapper">
+      {forumIdList.map((forumId) => {
+        return (
+          <Link
+            to={`/forum/${forumId}`}
+            key={forumId}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <SingleForum id={forumId} token={token} />
+          </Link>
+        );
+      })}
+      {/* <div className="ForumWrapper">
         <img
           className="ForumImg"
           src="https://yt3.ggpht.com/ytc/AKedOLRA9H963jFZZF-w7cRJf6pV2l51trpu0mHCwNa-lw=s900-c-k-c0x00ffffff-no-rj"
@@ -19,7 +73,10 @@ function Forum({ forum }) {
       <div className="ForumWrapper">
         <img
           className="ForumImg"
-          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/web-development_Ap6b_bSMM.jpeg"}
+          src={
+            process.env.REACT_APP_IMAGEKITURLENDPOINT +
+            "/web-development_Ap6b_bSMM.jpeg"
+          }
           alt=""
         />
         <p>Web dev Community</p>
@@ -27,11 +84,14 @@ function Forum({ forum }) {
       <div className="ForumWrapper">
         <img
           className="ForumImg"
-          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/full-stack-web-developer_Bd2OUDJN9.png"}
+          src={
+            process.env.REACT_APP_IMAGEKITURLENDPOINT +
+            "/full-stack-web-developer_Bd2OUDJN9.png"
+          }
           alt=""
         />
         <p>Full stack developers</p>
-      </div>
+      </div> */}
     </>
   );
 }
@@ -62,10 +122,10 @@ function SingleFollowing({ id, token }) {
       } catch (error) {
         notify(false, "Network Error");
       }
-    };
+    }
 
     fetchuser(id);
-  },[]);
+  }, []);
   return (
     <>
       <div className="ForumWrapper">
@@ -85,7 +145,7 @@ function SingleFollowing({ id, token }) {
 function Following({ userIdList, token }) {
   return (
     <>
-      {userIdList.map((userId) => {
+      {(userIdList) && userIdList.map((userId) => {
         return (
           <Link
             to={`/user/${userId}`}
@@ -121,21 +181,26 @@ function Following({ userIdList, token }) {
   );
 }
 
-// eslint-disable-next-line react/prop-types
-export default function Sidebar({ source }) {
+
+export default function Sidebar({ source, contentObject }) {
+  console.log(contentObject);
   const { user, token } = useContext(AuthContext);
   return (
     <div className="sidebar">
+      <div className="mockBanner">
+        Done With your Preparations?<br></br> Overcome the fear of Interview with VR.<br></br><br></br>
+        <Link to="/mockInterview"><button className="glow-on-hover">Practice Mock</button></Link>
+      </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">
           {source === "forum" ? "Admins" : "My Forums"}
         </span>
         <div className="ForumList">
-          <Forum />
-          <Forum />
-          <Forum />
-          <Forum />
-          <Forum />
+          {source === "forum" ? (
+            contentObject && (contentObject.admin.length !== 0) ? <Following userIdList={contentObject?.admin} token={token} /> : <div className="NoForumDiv">No Admins in the Forum</div>
+          ) : (
+            user && (user.forumsJoined.length !==0) ? <Forum forumIdList={user.forumsJoined} token={token} /> : <div className="NoForumDiv">No Forums Joined</div>
+          )}
         </div>
       </div>
       <div className="sidebarItem">
@@ -143,7 +208,11 @@ export default function Sidebar({ source }) {
           {source === "forum" ? "Members" : "Followings"}
         </span>
         <div className="ForumList">
-          <Following userIdList={user.followings} token={token} />
+          {source === "forum" ? (
+            contentObject && (contentObject.members.length !== 0) ? <Following userIdList={contentObject?.members} token={token} /> : <div className="NoForumDiv">No Members in the Forum</div>
+          ) : (
+            user && (user.followings.length !== 0) ? <Following userIdList={user.followings} token={token} /> : <div className="NoForumDiv">Follow someone</div>
+          )}
         </div>
       </div>
     </div>

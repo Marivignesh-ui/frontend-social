@@ -1,0 +1,53 @@
+.myvidContainer {
+    z-index: 900;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+}
+
+#myvideo {
+    z-index: inherit;
+    height: 150px;
+}
+
+.Notification {
+    z-index: 900;
+    position: absolute;
+}
+
+.paper1 {
+    z-index: 900;
+    position: absolute;  
+}
+
+.copybutton {
+    background-color: #3730a3;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+    margin-left: 5px; 
+}
+
+.hangupbutton {
+    background-color: #e11d48;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+    margin-left: 5px; 
+}
+
+.callbutton {
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    padding: 5px 1rem 5px 1rem;
+    border-radius: 2px;
+    margin-left: 5px;  
+}
+
+.callbutton:focus{
+    cursor: not-allowed;
+}
+

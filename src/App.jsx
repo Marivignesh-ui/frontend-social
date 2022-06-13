@@ -11,6 +11,21 @@ import User from "./pages/User/User";
 import Explore from "./pages/explore/Explore";
 import { AuthContext } from "./context/AuthContext";
 import { Redirect } from "react-router-dom";
+import {ContextProvider} from "./context/SocketContext";
+import {VideoPlayer} from "./pages/videoplayer/VideoPlayer";
+import {Notifications} from "./pages/videoplayer/Notifications";
+import {Options} from "./pages/videoplayer/OptionsComponent";
+
+const Videocaller=()=>{
+  return(
+      <ContextProvider>
+          <VideoPlayer />
+          <Options>
+              <Notifications />
+          </Options>
+      </ContextProvider>
+  );
+}
 
 function App() {
   useEffect(() => {
@@ -20,7 +35,7 @@ function App() {
   }, []);
 
   const { token } = useContext(AuthContext);
-  
+
   return (
     <Router>
       <Switch>
@@ -42,8 +57,18 @@ function App() {
         </Route>
         <Route path="/write">{token ? <Write /> : <Write />}</Route>
         <Route path="/settings">{token ? <Settings /> : <Settings />}</Route>
-        <Route path="/forum">{token ? <ForumPage /> : <ForumPage />}</Route>
-        <Route path="/user/:id">{token ? <User /> : <User />}</Route>
+        <Route path="/forum/:id">
+          {token ? <ForumPage /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/user/:id">
+          {token ? <User /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/singleBlog/:id">
+          {token ? <Single /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/mockInterview">
+          {token ? <Videocaller /> : <Redirect to="/login" />}
+        </Route>
       </Switch>
     </Router>
   );

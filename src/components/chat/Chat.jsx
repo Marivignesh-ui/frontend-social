@@ -16,13 +16,10 @@ function ReceivedMessage({ userAvatar, text, time }) {
           src={`${process.env.REACT_APP_IMAGEKITURLENDPOINT+userAvatar}`}
           alt=""
         />
-        <div className="chat-msg-date">Message seen {time}</div>
+        <div className="chat-msg-date">Message seen {format(time)}</div>
       </div>
       <div className="chat-msg-content">
         <div className="chat-msg-text">{text}</div>
-        <div className="chat-msg-text">
-          Are you learning react making progress?
-        </div>
       </div>
     </div>
   );
@@ -37,14 +34,10 @@ function SentMessage({ userAvatar, text, time }) {
           src={`${process.env.REACT_APP_IMAGEKITURLENDPOINT}/${userAvatar}`}
           alt=""
         />
-        <div className="chat-msg-date">Message seen {time}</div>
+        <div className="chat-msg-date">Message seen {format(time)}</div>
       </div>
       <div className="chat-msg-content">
         <div className="chat-msg-text">{text}</div>
-        <div className="chat-msg-text">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Error
-          deserunt nesciunt minus id a ad officia magnam quibusdam
-        </div>
       </div>
     </div>
   );
@@ -71,6 +64,13 @@ const Chat = ({ conversationId, otheruser }) => {
     });
   }, []);
   
+  useEffect(() => {
+    arrivalMessage && otheruser._id === arrivalMessage.sender && setMessages((prev) => [...prev, arrivalMessage]);
+  },[arrivalMessage,otheruser]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+  },[user]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -102,6 +102,12 @@ const Chat = ({ conversationId, otheruser }) => {
       text: newmessage,
       conversationId: conversationId,
     };
+
+    socket.current.emit("sendMessage",{
+      senderId: user._id,
+      receiverId: otheruser._id,
+      text: newmessage
+    });
 
     try {
       const res = await axios.post(

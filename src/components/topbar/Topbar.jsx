@@ -52,7 +52,7 @@ export default function Topbar({ source }) {
             <Link className="link" to="/settings">
               <img
                 className="topImg"
-                src={`${process.env.REACT_APP_IMAGEKITURLENDPOINT}/imgonline-com-ua-CompressToSize-WOu5OQfy6V2_6emrayipv.jpg`}
+                src={`${user && user.profilePicture ? process.env.REACT_APP_IMAGEKITURLENDPOINT+user.profilePicture : process.env.REACT_APP_IMAGEKITURLENDPOINT+"/no_avatar_TYi8DXgbZ.png"}`}
                 alt=""
               />
             </Link>

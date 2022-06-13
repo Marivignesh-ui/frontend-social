@@ -11,6 +11,17 @@
   width: 70%;
   margin: auto;
 }
+
+.NoPostDiv {
+  height: calc(100vh - 16rem);
+  display: flex;
+  align-items: center;;
+  justify-content: center;
+  font-size: 4rem;
+  color: lightgray;
+  text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
   .home {
     max-width: 100%;

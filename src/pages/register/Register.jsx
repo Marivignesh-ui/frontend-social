@@ -1,14 +1,60 @@
+import { useContext, useRef } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./register.css";
+import { notify } from "../../components/notify/notify";
+import axios from "axios";
+import { Toaster } from "react-hot-toast";
 
 export default function Register() {
+  const {dispatch} = useContext(AuthContext);
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const cnfPassword = useRef();
+
+  const registerUser = async () => {
+    const sendObject = {
+      username: username.current.value,
+      email: email.current.value,
+      password: password.current.value,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_BACKENDPOINT}auth/register`,
+        sendObject,
+        { ValidateState: () => true }
+      );
+      if (res.data.ok) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.responseObject });
+        notify(true, res.data.message);
+      } else {
+        dispatch({ type: "LOGIN_FAILURE", payload: res.data.message });
+        notify(false, res.data.message);
+        console.log("Login Failure");
+      }
+    } catch (error) {
+      dispatch({ type: "LOGIN_FAILURE", payload: error });
+      notify(false, "Network Error");
+    }
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
+    if (password.current.value !== cnfPassword.current.value) {
+      notify(false, "passwords doesn't match");
+      return;
+    }
+
+    dispatch({ type: "LOGIN_START" });
+    registerUser();
+
     console.log("called");
   };
   return (
     <div className="RegisterBody">
       <div className="AppTitle">Inter-Connect</div>
+      <Toaster />
       <div className="register">
         <div className="mainDiv">
           <div className="quotesDivWrapper">
@@ -30,6 +76,7 @@ export default function Register() {
                 minLength={6}
                 required
                 placeholder="Enter your username..."
+                ref={username}
               />
               <label>Email</label>
               <input
@@ -37,6 +84,7 @@ export default function Register() {
                 type="email"
                 required
                 placeholder="Enter your email..."
+                ref={email}
               />
               <label>Password</label>
               <input
@@ -44,6 +92,7 @@ export default function Register() {
                 type="password"
                 required
                 placeholder="Enter your password..."
+                ref={password}
               />
               <label>Confirm Password</label>
               <input
@@ -51,6 +100,7 @@ export default function Register() {
                 type="password"
                 required
                 placeholder="Re-Type your password..."
+                ref={cnfPassword}
               />
               <button className="registerButton" type="submit">
                 Register
