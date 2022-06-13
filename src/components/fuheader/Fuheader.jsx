@@ -238,7 +238,7 @@ export default function Fuheader({ source, contentObject }) {
       <br></br>
       <br></br>
       {source === "forum" && <PostUploader />}
-      <Posts />
+      <Posts postList={[]} />
     </div>
   );
 }
