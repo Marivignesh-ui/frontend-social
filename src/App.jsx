@@ -67,7 +67,7 @@ function App() {
           {token ? <Single /> : <Redirect to="/login" />}
         </Route>
         <Route path="/mockInterview">
-          {token ? <Videocaller /> : <Redirect to="/login" />}
+          {<Videocaller />}
         </Route>
       </Switch>
     </Router>
