@@ -29,7 +29,8 @@ export default function Register() {
         { ValidateState: () => true }
       );
       if (res.data.ok) {
-        setCollectInfo(res.data.resposeObject);
+        setCollectInfo(res.data.responseObject);
+        dispatch({type:"NOT_LOADING"});
         notify(true, res.data.message);
       } else {
         dispatch({ type: "LOGIN_FAILURE", payload: res.data.message });
@@ -67,9 +68,9 @@ export default function Register() {
       }
       <div className="register">
         <div className="mainDiv">
-          {collectInfo ? (
+          {(collectInfo!==null) ? (
             <>
-            <MoreInfo />
+            <MoreInfo responseObject={collectInfo}/>
             </>
           ) : (
             <>
