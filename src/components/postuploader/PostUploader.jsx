@@ -7,9 +7,10 @@ import BlogEditor from "../blogeditor/BlogEditor";
 import { AuthContext } from "../../context/AuthContext";
 import { notify } from "../notify/notify";
 import axios from "axios";
+import Loader from "../../components/loader/loader";
 
 function PostUploader() {
-  const { token, user } = useContext(AuthContext);
+  const { token, user, isFetching,dispatch } = useContext(AuthContext);
   const [images, setImages] = useState([]);
   const [editBlog, setEditBlog] = useState(false);
   const [taginput, setTagInput] = useState(false);
@@ -21,6 +22,7 @@ function PostUploader() {
       "x-access-token": token,
     };
     try {
+      dispatch("LOADING")
       const res = await axios.post(
         `${process.env.REACT_APP_BACKENDPOINT}post/upload`,
         postDetail,
@@ -29,15 +31,18 @@ function PostUploader() {
       console.log(res.data);
       console.log(postDetail);
       if (res.data.ok) {
+        dispatch("NOT_LOADING")
         notify(true, res.data.message);
         setImages([]);
         caption.current.value = "";
         tags.current.value = "";
         setTagInput(false);
       } else {
+        dispatch("NOT_LOADING");
         notify(false, res.data.message);
       }
     } catch (error) {
+      dispatch("NOT_LOADING");
       notify(false, "Network Error");
     }
   };
@@ -67,11 +72,13 @@ function PostUploader() {
   };
 
   const onError = (err) => {
+    dispatch("NOT_LOADING");
     console.log("Error", err);
   };
 
   const onSuccess = (res) => {
     console.log("Success", res);
+    dispatch("NOT_LOADING");
     const imagepath = res.filePath;
     setImages((images) => images.concat(imagepath));
   };
@@ -80,6 +87,7 @@ function PostUploader() {
     // <div className="postuploader">
     <div className="share">
       <Toaster />
+      {isFetching && <Loader />}
       <div className="shareWrapper">
         <form onSubmit={postUploadHandler}>
           <div className="shareTop">
@@ -117,7 +125,7 @@ function PostUploader() {
           <div className="shareBottom">
             <div className="shareOptions">
               <div className="shareOption">
-                <label htmlFor="imageInput" className="imageInputLabel">
+                <label htmlFor="imageInput" className="imageInputLabel" onClick={()=>{dispatch("LOADING")}}>
                   <PermMedia htmlColor="tomato" className="shareIcon" />
                   <span className="shareOptionText">Photo or Video</span>
                 </label>

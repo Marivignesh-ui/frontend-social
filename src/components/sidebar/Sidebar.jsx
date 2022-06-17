@@ -189,7 +189,7 @@ export default function Sidebar({ source, contentObject }) {
     <div className="sidebar">
       <div className="mockBanner">
         Done With your Preparations?<br></br> Overcome the fear of Interview with VR.<br></br><br></br>
-        <Link to="/mockInterview"><button className="glow-on-hover">Practice Mock</button></Link>
+        <Link to="/mockInterview" target={"_blank"}><button className="glow-on-hover">Practice Mock</button></Link>
       </div>
       <div className="sidebarItem">
         <span className="sidebarTitle">

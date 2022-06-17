@@ -6,9 +6,10 @@ import Topbar from "../../components/topbar/Topbar";
 import { AuthContext } from "../../context/AuthContext";
 import { notify } from "../../components/notify/notify";
 import "./Explore.css";
+import Loader from "../../components/loader/loader";
 
 function Explore() {
-  const { user, token, dispatch } = useContext(AuthContext);
+  const { user, token, dispatch, isFetching } = useContext(AuthContext);
   const [forumList, setForumList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("general");
 
@@ -17,17 +18,21 @@ function Explore() {
       "x-access-token": token,
     };
     try {
+      dispatch("LOADING");
       const res = await axios.get(
         `${process.env.REACT_APP_BACKENDPOINT}forums/category?cat=${category}`,
         { validateStatus: () => true, headers: headers }
       );
       if (res.data.ok) {
+        dispatch("NOT_LOADING");
         console.log(res.data.responseObject);
         setForumList(res.data.responseObject);
       } else {
+        dispatch("NOT_LOADING");
         notify(false, "Something went wrong!!");
       }
     } catch (error) {
+      dispatch("NOT_LOADING");
       notify(false, "Network Error");
     }
   };
@@ -43,6 +48,7 @@ function Explore() {
     };
     console.log(headers);
     try {
+      dispatch("LOADING");
       const res = await axios.put(
         `${process.env.REACT_APP_BACKENDPOINT}forums/leave/${id}`,
         "",
@@ -50,11 +56,14 @@ function Explore() {
       );
       if (res.data.ok) {
         dispatch({ type: "LEAVE_FORUM", payload: id });
+        dispatch("NOT_LOADING");
         notify(true, "Left from forum");
       } else {
+        dispatch("NOT_LOADING");
         notify(false, "Something Went wrong");
       }
     } catch (error) {
+      dispatch("NOT_LOADING");
       notify(false, "Network error");
     }
   };
@@ -64,6 +73,7 @@ function Explore() {
       "x-access-token": token,
     };
     try {
+      dispatch("LOADING");
       const res = await axios.put(
         `${process.env.REACT_APP_BACKENDPOINT}forums/join/${id}`,
         "",
@@ -71,11 +81,14 @@ function Explore() {
       );
       if (res.data.ok) {
         dispatch({ type: "JOIN_FORUM", payload: id });
+        dispatch("NOT_LOADING");
         notify(true, "Joined forum");
       } else {
+        dispatch("NOT_LOADING");
         notify(false, "Something Went wrong");
       }
     } catch (error) {
+      dispatch("NOT_LOADING");
       notify(false, "Network error");
     }
   };
@@ -89,6 +102,7 @@ function Explore() {
       <Toaster />
       <Topbar />
       <div className="ExploreWrapper">
+        {isFetching && <Loader />}
         <div className="ExploreMain">
           <br></br>
           <br></br>

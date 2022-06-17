@@ -116,6 +116,11 @@
   text-align: center;
 }
 
+.registerButtonloading {
+  cursor:not-allowed;
+  background-color: rgba(248, 94, 94, 0.142);
+}
+
 .registerLoginButton {
   position: absolute;
   top: 0.8rem;

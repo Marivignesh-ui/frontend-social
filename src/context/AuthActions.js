@@ -24,3 +24,11 @@ export const Unfollow = (userId) => ({
   type: "UNFOLLOW",
   payload: userId,
 });
+
+export const Loading = () => ({
+  type: "LOADING"
+});
+
+export const NotLoading = () => ({
+  type: "NOT_LOADING"
+})

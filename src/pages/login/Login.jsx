@@ -4,7 +4,8 @@ import { useContext, useRef } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { Toaster } from "react-hot-toast";
-import { notify } from "../../components/notify/notify"
+import { notify } from "../../components/notify/notify";
+import Loader from "../../components/loader/loader";
 
 export default function Login() {
   const { isFetching, dispatch } = useContext(AuthContext);
@@ -46,6 +47,7 @@ export default function Login() {
   return (
     <div className="LoginBody">
       <Toaster />
+      {isFetching && <Loader />}
       <div className="AppTitle">Inter-Connect</div>
       <div className="login">
         <div className="LoginDiv">

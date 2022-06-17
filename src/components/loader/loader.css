@@ -1,0 +1,10 @@
+.LoaderWrapper {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(44, 44, 44, 0.556);
+    z-index: 999;
+}
