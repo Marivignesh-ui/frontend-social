@@ -3,14 +3,12 @@
 }
 
 .FollowButton {
-  /* padding: 0.5rem; */
   position: absolute;
   right: 0;
+  font-size: small;
 }
 
 .custom-btn {
-  /* width: 130px;
-  height: 40px; */
   color: #fff;
   border-radius: 5px;
   padding: 10px 20px;

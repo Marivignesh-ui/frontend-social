@@ -11,6 +11,26 @@
   overflow-y: scroll;
 }
 
+.tabholder {
+  position: relative;
+}
+
+.tabButton {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: none;
+  border-top-left-radius: 0.3rem;
+  border-top-right-radius: 0.3rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.selectedTab {
+  border-bottom: none;
+  box-shadow: 0px -3px 7px -1px rgb(0 0 0 / 75%);
+  background-color: white;
+}
+
 .searchFilters {
   display: flex;
   justify-content: space-between;
@@ -79,7 +99,7 @@
   color: gray;
 }
 
-.ExploreListInfo > button {
+.createForumButton {
   height: 2rem;
   margin: auto 10px auto auto;
   border: none;

@@ -1,8 +1,102 @@
 import "./settings.css";
+import { useContext, useState, useRef } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Topbar from "../../components/topbar/Topbar";
+import axios from "axios";
+import { notify } from "../../components/notify/notify";
+import { IKUpload } from "imagekitio-react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Settings() {
+  const { dispatch, user, token } = useContext(AuthContext);
+
+  const [InterestList, setInterestList] = useState([
+    "Photography",
+    "Designing",
+    "Programming",
+    "Architect",
+    "Entrepreneurship",
+    "Information Technolgy",
+    "Medcicine",
+    "Software Development",
+    "Painting",
+    "Art",
+  ]);
+  const [interestText, setInterestText] = useState(false);
+  const [selectedList, setSelectedList] = useState(user.interests);
+  const occupation = useRef();
+  const interest = useRef();
+  const profilePicture = useRef("");
+  const username = useRef();
+  const description = useRef("");
+
+  const infoUpdater = async () => {
+    console.log("CAlled Infoupdater unncessarily");
+    dispatch({ type: "LOADING" });
+    const sendObject = {
+      id: user._id,
+      username: username.current.value,
+      desc: description.current.value,
+      occupation: occupation.current.value,
+      interests: selectedList,
+      profilePicture: profilePicture.current.value,
+    };
+    const headers = {
+      "x-access-token": token,
+    };
+    if (selectedList.length === 0) {
+      sendObject.interests = null;
+    }
+    if (
+      occupation.current.value === null ||
+      occupation.current.value === undefined ||
+      occupation.current.value === ""
+    ) {
+      sendObject.occupation = null;
+    }
+    if (
+      profilePicture.current.value === null ||
+      profilePicture.current.value === undefined ||
+      profilePicture.current.value === ""
+    ) {
+      sendObject.profilePicture = null;
+    }
+    try {
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKENDPOINT}users/update/user`,
+        sendObject,
+        { validateStatus: () => true, headers: headers }
+      );
+      if (res.data.ok) {
+        dispatch({ type: "NOT_LOADING" });
+        notify(true, "User Updated Successfully");
+        dispatch({ type: "UPDATE_USER", payload: res.data.responseObject });
+      } else {
+        dispatch({ type: "NOT_LOADING" });
+        notify(false, "Something Went Wrong");
+      }
+    } catch (error) {
+      dispatch({ type: "NOT_LOADING" });
+      console.log(error);
+      notify(false, "Network Error");
+    }
+  };
+  const submitHandler1 = (e) => {
+    e.preventDefault();
+    infoUpdater();
+  };
+
+  const onError = (err) => {
+    dispatch({ type: "NOT_LOADING" });
+    console.log("Error", err);
+  };
+
+  const onSuccess = (res) => {
+    console.log("Success", res);
+    dispatch({ type: "NOT_LOADING" });
+    const imagepath = res.filePath;
+    profilePicture.current.value = imagepath;
+  };
   return (
     <>
       <Topbar />
@@ -14,41 +108,109 @@ export default function Settings() {
             <span className="settingsTitleUpdate">Update Your Account</span>
             <span className="settingsTitleDelete">Delete Account</span>
           </div>
-          <form className="settingsForm">
+          <form className="settingsForm" onSubmit={submitHandler1}>
             <label>Profile Picture</label>
             <div className="settingsPP">
               <img
-                src="https://images.pexels.com/photos/6685428/pexels-photo-6685428.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                src={process.env.REACT_APP_IMAGEKITURLENDPOINT+user?.profilePicture}
                 alt=""
               />
-              <label htmlFor="fileInput">
-                <i className="settingsPPIcon far fa-user-circle"></i>{" "}
+              <label htmlFor="profileupload">
+                <i
+                  className="settingsPPIcon far fa-user-circle"
+                  onClick={() => {
+                    dispatch("LOADING");
+                  }}
+                ></i>{" "}
               </label>
-              <input
-                id="fileInput"
-                type="file"
+              <IKUpload
+                id="profileupload"
+                onError={onError}
+                onSuccess={onSuccess}
                 style={{ display: "none" }}
-                className="settingsPPInput"
+                // className="settingsPPInput"
               />
             </div>
             <label>Username</label>
-            <input type="text" placeholder="Safak" name="name" />
-            <label>Email</label>
-            <input type="email" placeholder="safak@gmail.com" name="email" />
-            <label>Password</label>
-            <input type="password" placeholder="Password" name="password" />
+            <input
+              type="text"
+              placeholder={user?.username}
+              name="name"
+              ref={username}
+            />
+            <label>Current Role</label>
+            <input
+              type="text"
+              placeholder={user?.occupation}
+              name="occupation"
+              list="occupation"
+              ref={occupation}
+            />
+            <datalist id="occupation">
+              <option value="Student">Student</option>
+              <option value="Recruiter">Recruiter</option>
+              <option value="Software Developer">Software Developer</option>
+              <option value="HR">HR</option>
+              <option value="Engineer">Engineer</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Digital Marketing Manager">
+                Digital Marketing
+              </option>
+              <option value="Architect">Architect</option>
+              <option value="Business Analyst">Business Analyst</option>
+              <option value="Product Manager">Product Manager</option>
+              <option value="Test Engineer">Test Engineer</option>
+              <option value="Medical Researcher">Medical Researcher</option>
+              <option value="Designer">Designer</option>
+            </datalist>
+            <label>Short Description About You</label>
+            <input
+              type="text"
+              placeholder={user?.desc}
+              name="description"
+              ref={description}
+            />
             <label>Your Interests</label>
             <div className="InterestsWrapper">
               <ul className="InterestList">
-                <li>Photography</li>
-                <li>Designing</li>
-                <li>Programming</li>
-                <li>Architect</li>
-                <li>Entrepreneurship</li>
-                <li>Information Technolgy</li>
-                <li>Medcicine</li>
+                {InterestList.map((interest) => {
+                  return (
+                    <li
+                      onClick={() => {
+                        setSelectedList(selectedList.concat(interest));
+                      }}
+                      style={{
+                        backgroundColor:
+                          selectedList.includes(interest) && "rgb(1, 114, 114)",
+                      }}
+                    >
+                      {interest}
+                    </li>
+                  );
+                })}
+                {interestText && (
+                  <li>
+                    <input type="text" ref={interest} />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInterestList(
+                          InterestList.concat(interest.current.value)
+                        );
+                      }}
+                    >
+                      add
+                    </button>
+                  </li>
+                )}
                 <li>
-                  <button className="Interestadd" type="button">
+                  <button
+                    className="Interestadd"
+                    type="button"
+                    onClick={() => {
+                      setInterestText(!interestText);
+                    }}
+                  >
                     <i className="fas fa-plus-circle"></i>
                   </button>
                 </li>

@@ -15,6 +15,7 @@ import {ContextProvider} from "./context/SocketContext";
 import {VideoPlayer} from "./pages/videoplayer/VideoPlayer";
 import {Notifications} from "./pages/videoplayer/Notifications";
 import {Options} from "./pages/videoplayer/OptionsComponent";
+import CreateForum from "./pages/createforum/CreateForum";
 
 const Videocaller=()=>{
   return(
@@ -56,7 +57,7 @@ function App() {
           <Single />
         </Route>
         <Route path="/write">{token ? <Write /> : <Write />}</Route>
-        <Route path="/settings">{token ? <Settings /> : <Settings />}</Route>
+        <Route path="/settings">{token ? <Settings /> : <Redirect to="/login" />}</Route>
         <Route path="/forum/:id">
           {token ? <ForumPage /> : <Redirect to="/login" />}
         </Route>
@@ -68,6 +69,9 @@ function App() {
         </Route>
         <Route path="/mockInterview">
           {<Videocaller />}
+        </Route>
+        <Route path="/createForum">
+          {token ? <CreateForum /> : <Redirect to="/login" />}
         </Route>
       </Switch>
     </Router>

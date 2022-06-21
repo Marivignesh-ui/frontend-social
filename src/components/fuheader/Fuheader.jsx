@@ -9,14 +9,15 @@ import { notify } from "../notify/notify";
 import { format } from "timeago.js";
 
 function SingleUserFollowing({ id, token }) {
-  const headers = {
-    "x-access-token": token,
-  };
+  
   const [followinguser, setFollowingUser] = useState({
     imageUrl: "",
     name: "",
   });
   useEffect(() => {
+    const headers = {
+      "x-access-token": token,
+    };
     async function fetchfollowings(id) {
       try {
         const res = await axios.get(
@@ -69,63 +70,43 @@ function Followings({ ids }) {
           </Link>
         );
       })}
-      {/* <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div>
-      <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/no_avatar_TYi8DXgbZ.png"}
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div>
-      <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png"
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div>
-      <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div> */}
-      {/* <div className="Followingsuser">
-        <img
-          className="FollowingsAvatar"
-          src={process.env.REACT_APP_IMAGEKITURLENDPOINT+"/no_avatar_TYi8DXgbZ.png"}
-          alt=""
-        />
-        <center>
-          <p>username</p>
-        </center>
-      </div> */}
     </div>
   );
 }
 
 export default function Fuheader({ source, contentObject }) {
+  const [postList, setPostList] = useState([]);
   console.log("ContentObject: ", contentObject);
   const { user, token, dispatch } = useContext(AuthContext);
+
+  useEffect(() => {
+    const headers = {
+      "x-access-token": token,
+    };
+    const fetchPosts = async () => {
+      try {
+        let url;
+        if(source === "forum"){
+          url=`post/forum/${contentObject._id}`;
+        }else{
+          url = `post/user/${contentObject._id}`;
+        }
+        const res = await axios.get(
+          `${process.env.REACT_APP_BACKENDPOINT+url}`,
+          { validateStatus: () => true, headers: headers }
+        );
+        if (res.data.ok) {
+          setPostList(res.data.responseObject);
+        } else {
+          notify(false, "Something went wrong");
+        }
+      } catch (error) {
+        notify(false, "Network Error");
+      }
+    };
+
+    fetchPosts();
+  }, [contentObject._id,source,token]);
 
   const leaveForum = async () => {
     const headers = {
@@ -194,7 +175,7 @@ export default function Fuheader({ source, contentObject }) {
       <div className="ForumInfo">
         <center>
           <p className="ForumTitle">
-            {contentObject.username}
+            {source === "forum" ?contentObject.forumName:contentObject.username}
             {source === "forum" ? (
               user.forumsJoined.includes(contentObject._id) ? (
                 <button
@@ -238,7 +219,7 @@ export default function Fuheader({ source, contentObject }) {
       <br></br>
       <br></br>
       {source === "forum" && <PostUploader />}
-      <Posts postList={[]} />
+      <Posts postList={postList} />
     </div>
   );
 }

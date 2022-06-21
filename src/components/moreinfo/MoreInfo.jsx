@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { notify } from '../notify/notify';
 import "./MoreInfo.css"
 
 
@@ -13,41 +14,74 @@ export default function MoreInfo({responseObject}) {
   const [InterestList,setInterestList] = useState(["Photography","Designing","Programming","Architect","Entrepreneurship","Information Technolgy","Medcicine","Software Development","Painting","Art"]);
   const [interestText,setInterestText] = useState(false);
   const [selectedList,setSelectedList] = useState([]);
-  const username = useRef(responseObject.user.username);
   const occupation = useRef();
   const interest = useRef();
   const profilePicture = useRef("");
+  const description = useRef("");
 
   const infoUpdater = async () => {
+    console.log("CAlled Infoupdater unncessarily");
+    dispatch({type:"LOADING"});
     const sendObject = {
-      username : username.current.value,
+      id: responseObject.user._id,
+      desc: description.current.value,
       occupation : occupation.current.value,
       interests: selectedList,
       profilePicture: profilePicture.current.value
     }
+    const headers = {
+      "x-access-token": responseObject.token
+    }
+    if(selectedList.length===0){
+      sendObject.interests=null;
+    }
+    if(occupation.current.value===null || occupation.current.value === undefined || occupation.current.value === ""){
+      sendObject.occupation = null
+    }
+    if(profilePicture.current.value===null || profilePicture.current.value === undefined || profilePicture.current.value === ""){
+      sendObject.profilePicture = null
+    }
+    if(description.current.value===null || description.current.value === undefined || description.current.value === ""){
+      sendObject.description = null
+    }
     try{
-      const resp = await axios.post("",sendObject);
+      const res = await axios.put(`${process.env.REACT_APP_BACKENDPOINT}users/update/user`,sendObject,{validateStatus: ()=> true,headers:headers});
+      const resObject = {
+        token: responseObject.token,
+        user: res.data.responseObject
+      }
+      if(res.data.ok){
+        dispatch({type:"LOGIN_SUCCESS",payload: resObject});
+        dispatch({type:"NOT_LOADING"});
+        notify(true,"User Registered Successfully");
+      }else{
+        dispatch({type: "NOT_LOADING"});
+        notify(false,"Something Went Wrong");
+      }
     }catch(error){
+      dispatch({type: "NOT_LOADING"});
       console.log(error);
+      notify(false,"Network Error");
     }
   }
 
-  const submitHandler = (e) => {
+  const submitHandler1 = (e) => {
       e.preventDefault();
-      dispatch({ type: "LOGIN_SUCCESS", payload: responseObject });
+      infoUpdater();
   }
 
   const onError = (err) => {
-    dispatch("NOT_LOADING");
+    dispatch({type:"NOT_LOADING"});
     console.log("Error", err);
   };
 
   const onSuccess = (res) => {
     console.log("Success", res);
-    dispatch("NOT_LOADING");
+    dispatch({type:"NOT_LOADING"});
     const imagepath = res.filePath;
     profilePicture.current.value = imagepath;
   };
+  // console.log("responseObj:",profilePicture.current.value);
 
   return (
     <div>
@@ -56,15 +90,15 @@ export default function MoreInfo({responseObject}) {
             <span className="settingsTitleUpdate">Some More Info</span>
             <span className="settingsTitleDelete">Delete Account</span>
           </div>
-          <form className="settingsForm" onSubmit={submitHandler}>
+          <form className="settingsForm" onSubmit={submitHandler1}>
             <label>Profile Picture</label>
             <div className="settingsPP">
               <img
-                src={process.env.REACT_APP_IMAGEKITURLENDPOINT +"/no_avatar_TYi8DXgbZ.png"}
+                src={(profilePicture.current.value)?process.env.REACT_APP_IMAGEKITURLENDPOINT +profilePicture.current.value:process.env.REACT_APP_IMAGEKITURLENDPOINT +"/no_avatar_TYi8DXgbZ.png"}
                 alt=""
               />
-              <label htmlFor="profileupload" onClick={()=>{dispatch("LOADING")}}>
-                <i className="settingsPPIcon far fa-user-circle"></i>{" "}
+              <label htmlFor="profileupload">
+                <i className="settingsPPIcon far fa-user-circle" onClick={()=>{dispatch("LOADING")}}></i>{" "}
               </label>
               <IKUpload
                 id="profileupload"
@@ -74,8 +108,6 @@ export default function MoreInfo({responseObject}) {
                 // className="settingsPPInput"
               />
             </div>
-            <label>Username</label>
-            <input type="text" placeholder="Marivignesh" name="name"  ref={username}/>
             <label>Current Role</label>
             <input type="text" placeholder="Student" name="occupation" list="occupation" ref={occupation}/>
             <datalist id="occupation">
@@ -94,7 +126,7 @@ export default function MoreInfo({responseObject}) {
                 <option value="Designer">Designer</option>
             </datalist>
             <label>Short Description About You</label>
-            <input type="password" placeholder="Iam a...." name="password" />
+            <input type="text" placeholder="Iam a...." name="description" ref={description}/>
             <label>Your Interests</label>
             <div className="InterestsWrapper">
               <ul className="InterestList">

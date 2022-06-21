@@ -32,3 +32,7 @@ export const Loading = () => ({
 export const NotLoading = () => ({
   type: "NOT_LOADING"
 })
+
+export const Updateuser = () => ({
+  type: "UPDATE_USER"
+})

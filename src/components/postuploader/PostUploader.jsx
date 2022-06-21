@@ -22,7 +22,7 @@ function PostUploader() {
       "x-access-token": token,
     };
     try {
-      dispatch("LOADING")
+      dispatch({type:"LOADING"})
       const res = await axios.post(
         `${process.env.REACT_APP_BACKENDPOINT}post/upload`,
         postDetail,
@@ -31,18 +31,18 @@ function PostUploader() {
       console.log(res.data);
       console.log(postDetail);
       if (res.data.ok) {
-        dispatch("NOT_LOADING")
+        dispatch({type:"NOT_LOADING"})
         notify(true, res.data.message);
         setImages([]);
         caption.current.value = "";
         tags.current.value = "";
         setTagInput(false);
       } else {
-        dispatch("NOT_LOADING");
+        dispatch({type:"NOT_LOADING"});
         notify(false, res.data.message);
       }
     } catch (error) {
-      dispatch("NOT_LOADING");
+      dispatch({type:"NOT_LOADING"});
       notify(false, "Network Error");
     }
   };
@@ -72,13 +72,13 @@ function PostUploader() {
   };
 
   const onError = (err) => {
-    dispatch("NOT_LOADING");
+    dispatch({type:"NOT_LOADING"});
     console.log("Error", err);
   };
 
   const onSuccess = (res) => {
     console.log("Success", res);
-    dispatch("NOT_LOADING");
+    dispatch({type:"NOT_LOADING"});
     const imagepath = res.filePath;
     setImages((images) => images.concat(imagepath));
   };

@@ -8,7 +8,7 @@ const VideoPlayer = () => {
     const {name,callAccepted,myVideo,userVideo,callEnded,stream,call}=useContext(SocketContext);
     
     return (
-        <div>
+        <div className="vrcontainer">
         <Scene>
         <a-assets>
           <img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg"/>
