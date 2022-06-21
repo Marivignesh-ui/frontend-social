@@ -45,7 +45,7 @@ export default function Topbar({ source }) {
             className="searchInput"
             placeholder="Search Something..."
           />
-          <i className="topSearchIcon fas fa-search"></i>
+          <Link to="/explore" style={{ textDecoration: "none", color: "inherit" }}><i className="topSearchIcon fas fa-search"></i></Link>
         </div>
         {token ? (
           <>

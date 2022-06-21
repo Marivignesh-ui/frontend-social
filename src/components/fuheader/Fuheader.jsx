@@ -148,6 +148,58 @@ export default function Fuheader({ source, contentObject }) {
       notify(false, "Network error");
     }
   };
+
+  const unFollowUser = async (id) => {
+    const headers = {
+      "x-access-token": token,
+    };
+    console.log(headers);
+    try {
+      dispatch({ type: "LOADING" });
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKENDPOINT}users/unfollow?id=${id}`,
+        "",
+        { validateStatus: () => true, headers: headers }
+      );
+      if (res.data.ok) {
+        dispatch({ type: "UNFOLLOW", payload: id });
+        dispatch({ type: "NOT_LOADING" });
+        notify(true, "Unfollowed User");
+      } else {
+        dispatch({ type: "NOT_LOADING" });
+        notify(false, "Something Went wrong");
+      }
+    } catch (error) {
+      dispatch({ type: "NOT_LOADING" });
+      notify(false, "Network error");
+    }
+  };
+
+  const followUser = async (id) => {
+    const headers = {
+      "x-access-token": token,
+    };
+    try {
+      dispatch({ type: "LOADING" });
+      const res = await axios.put(
+        `${process.env.REACT_APP_BACKENDPOINT}users/follow?id=${id}`,
+        "",
+        { validateStatus: () => true, headers: headers }
+      );
+      if (res.data.ok) {
+        dispatch({ type: "FOLLOW", payload: id });
+        dispatch({ type: "NOT_LOADING" });
+        notify(true, "Followed User");
+      } else {
+        dispatch({ type: "NOT_LOADING" });
+        notify(false, "Something Went wrong");
+      }
+    } catch (error) {
+      dispatch({ type: "NOT_LOADING" });
+      notify(false, "Network error");
+    }
+  };
+
   return (
     <div className="ForumMain">
       <img
@@ -193,11 +245,11 @@ export default function Fuheader({ source, contentObject }) {
                 </button>
               )
             ) : user.followings.includes(contentObject._id) ? (
-              <button className="FollowButton btn-10 custom-btn">
+              <button className="FollowButton btn-10 custom-btn" onClick={() => unFollowUser(contentObject._id)}>
                 <i className="fa-solid fa-minus-circle"></i> &nbsp; UnFollow
               </button>
             ) : (
-              <button className="FollowButton btn-10 custom-btn">
+              <button className="FollowButton btn-10 custom-btn" onClick={() => followUser(contentObject._id)}>
                 <i className="fa-solid fa-circle-plus"></i> &nbsp; Follow
               </button>
             )}
