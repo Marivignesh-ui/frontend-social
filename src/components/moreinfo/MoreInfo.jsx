@@ -92,7 +92,7 @@ export default function MoreInfo({responseObject}) {
             <label>Profile Picture</label>
             <div className="settingsPP">
               <img
-                src={(profilePicture.current.value)?process.env.REACT_APP_IMAGEKITURLENDPOINT +profilePicture.current.value:process.env.REACT_APP_IMAGEKITURLENDPOINT +"/no_avatar_TYi8DXgbZ.png"}
+                src={(profilePicture)?process.env.REACT_APP_IMAGEKITURLENDPOINT +profilePicture:process.env.REACT_APP_IMAGEKITURLENDPOINT +"/no_avatar_TYi8DXgbZ.png"}
                 alt=""
               />
               <label htmlFor="profileupload">
