@@ -7,7 +7,6 @@ import "./posts.css";
 
 export default function Posts({ postList }) {
   const { user } = useContext(AuthContext);
-  console.log(postList.length);
   return (
     <div className="posts">
       {postList && postList.length !== 0 && (

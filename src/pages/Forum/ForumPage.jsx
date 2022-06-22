@@ -15,13 +15,11 @@ function ForumPage() {
   const [forum, setForum] = useState(null);
 
   const fetchuser = async (id, headers) => {
-    console.log("called fetchuser");
     try {
       const res = await axios.get(
         `${process.env.REACT_APP_BACKENDPOINT}forums/forum/${id}`,
         {validateStatus:() => true, headers:headers}
       );
-      console.log(res.data);
       if (res.data.ok) {
         setForum(res.data.responseObject);
       } else {

@@ -183,7 +183,6 @@ function Following({ userIdList, token }) {
 
 
 export default function Sidebar({ source, contentObject }) {
-  console.log(contentObject);
   const { user, token } = useContext(AuthContext);
   return (
     <div className="sidebar">

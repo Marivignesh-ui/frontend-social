@@ -24,9 +24,9 @@ export default function Settings() {
   ]);
   const [interestText, setInterestText] = useState(false);
   const [selectedList, setSelectedList] = useState(user.interests);
+  const [profilePicture,setProfilePicture] = useState(user.profilePicture);
   const occupation = useRef();
   const interest = useRef();
-  const profilePicture = useRef("");
   const username = useRef();
   const description = useRef("");
 
@@ -39,13 +39,20 @@ export default function Settings() {
       desc: description.current.value,
       occupation: occupation.current.value,
       interests: selectedList,
-      profilePicture: profilePicture.current.value,
+      profilePicture: profilePicture,
     };
     const headers = {
       "x-access-token": token,
     };
     if (selectedList.length === 0) {
       sendObject.interests = null;
+    }
+    if (
+      username.current.value === null ||
+      username.current.value === undefined ||
+      username.current.value === ""
+    ) {
+      sendObject.username = null;
     }
     if (
       occupation.current.value === null ||
@@ -55,12 +62,20 @@ export default function Settings() {
       sendObject.occupation = null;
     }
     if (
-      profilePicture.current.value === null ||
-      profilePicture.current.value === undefined ||
-      profilePicture.current.value === ""
+      description.current.value === null ||
+      description.current.value === undefined ||
+      description.current.value === ""
+    ) {
+      sendObject.desc = null;
+    }
+    if (
+      profilePicture === null ||
+      profilePicture === undefined ||
+      profilePicture === ""
     ) {
       sendObject.profilePicture = null;
     }
+    
     try {
       const res = await axios.put(
         `${process.env.REACT_APP_BACKENDPOINT}users/update/user`,
@@ -80,6 +95,7 @@ export default function Settings() {
       console.log(error);
       notify(false, "Network Error");
     }
+    console.log("Sendobjects:",sendObject);
   };
   const submitHandler1 = (e) => {
     e.preventDefault();
@@ -95,7 +111,7 @@ export default function Settings() {
     console.log("Success", res);
     dispatch({ type: "NOT_LOADING" });
     const imagepath = res.filePath;
-    profilePicture.current.value = imagepath;
+    setProfilePicture(imagepath);
   };
   return (
     <>
@@ -112,15 +128,14 @@ export default function Settings() {
             <label>Profile Picture</label>
             <div className="settingsPP">
               <img
-                src={process.env.REACT_APP_IMAGEKITURLENDPOINT+user?.profilePicture}
+                src={process.env.REACT_APP_IMAGEKITURLENDPOINT+profilePicture}
                 alt=""
               />
-              <label htmlFor="profileupload">
+              <label htmlFor="profileupload" onClick={() => {
+                    dispatch({type:"LOADING"});
+                  }}>
                 <i
                   className="settingsPPIcon far fa-user-circle"
-                  onClick={() => {
-                    dispatch("LOADING");
-                  }}
                 ></i>{" "}
               </label>
               <IKUpload
@@ -128,6 +143,9 @@ export default function Settings() {
                 onError={onError}
                 onSuccess={onSuccess}
                 style={{ display: "none" }}
+                onChange={() => {
+                  dispatch({type:"LOADING"});
+                }}
                 // className="settingsPPInput"
               />
             </div>

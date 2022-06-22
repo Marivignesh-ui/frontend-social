@@ -56,7 +56,6 @@ function SingleUserFollowing({ id, token }) {
 
 function Followings({ ids }) {
   const { token } = useContext(AuthContext);
-  console.log(ids);
   return (
     <div className="FollowingsContainer">
       {ids.map((userId) => {
@@ -76,7 +75,6 @@ function Followings({ ids }) {
 
 export default function Fuheader({ source, contentObject }) {
   const [postList, setPostList] = useState([]);
-  console.log("ContentObject: ", contentObject);
   const { user, token, dispatch } = useContext(AuthContext);
 
   useEffect(() => {
@@ -112,7 +110,6 @@ export default function Fuheader({ source, contentObject }) {
     const headers = {
       "x-access-token": token,
     };
-    console.log(headers);
     try {
       const res = await axios.put(
         `${process.env.REACT_APP_BACKENDPOINT}forums/leave/${contentObject._id}`,"",
@@ -153,7 +150,6 @@ export default function Fuheader({ source, contentObject }) {
     const headers = {
       "x-access-token": token,
     };
-    console.log(headers);
     try {
       dispatch({ type: "LOADING" });
       const res = await axios.put(

@@ -15,7 +15,6 @@ const uploadBlog = async (postDetail,token) => {
       postDetail,
       { validateStatus: () => true, headers: headers },
     );
-    console.log(res.data);
     if (res.data.ok) {
       notify(true, res.data.message);
     } else {
@@ -41,7 +40,6 @@ function BlogEditor({ viewState }) {
         postType: "Blog",
         tags: tags.current.value.split(","),
       };
-      console.log(postDetail);
       uploadBlog(postDetail,token);
       viewState(false);
     }

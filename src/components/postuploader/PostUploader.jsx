@@ -28,8 +28,6 @@ function PostUploader() {
         postDetail,
         { validateStatus: () => true, headers: headers }
       );
-      console.log(res.data);
-      console.log(postDetail);
       if (res.data.ok) {
         dispatch({type:"NOT_LOADING"})
         notify(true, res.data.message);
@@ -47,7 +45,6 @@ function PostUploader() {
     }
   };
 
-  // "/career_YkK4FwiOZ.png","/careerlogo_nWoG9VLii.png"
 
   const postUploadHandler = (e) => {
     e.preventDefault();
@@ -56,7 +53,6 @@ function PostUploader() {
       (tags.current.value === undefined) |
       (tags.current.value === null)
     ) {
-      console.log("came inside");
       notify(false, "Add some Tags to upload");
       setTagInput(true);
       return;

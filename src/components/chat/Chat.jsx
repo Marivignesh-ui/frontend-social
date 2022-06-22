@@ -78,7 +78,6 @@ const Chat = ({ conversationId, otheruser }) => {
         const res = await axios.get(
           process.env.REACT_APP_BACKENDPOINT + "messages/" + conversationId
         );
-        console.log(res.data);
         if (res.data.ok) {
           setMessages(res.data.responseObject);
         } else {
@@ -124,7 +123,6 @@ const Chat = ({ conversationId, otheruser }) => {
   };
 
   const onEmojiClick = (event, emojiObject) => {
-    console.log(emojiObject);
     setNewMessage(newmessage + emojiObject.emoji);
     handleClick();
   };

@@ -73,7 +73,6 @@ export default function UsersExplorer() {
   };
 
   useEffect(() => {
-    console.log(currentCategory);
     fetchUsers(currentCategory);
   }, [currentCategory]);
 
@@ -81,7 +80,6 @@ export default function UsersExplorer() {
     const headers = {
       "x-access-token": token,
     };
-    console.log(headers);
     try {
       dispatch({ type: "LOADING" });
       const res = await axios.put(

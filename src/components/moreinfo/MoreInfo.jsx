@@ -14,20 +14,19 @@ export default function MoreInfo({responseObject}) {
   const [InterestList,setInterestList] = useState(["Photography","Designing","Programming","Architect","Entrepreneurship","Information Technolgy","Medcicine","Software Development","Painting","Art"]);
   const [interestText,setInterestText] = useState(false);
   const [selectedList,setSelectedList] = useState([]);
+  const [profilePicture,setProfilePicture] = useState(responseObject.profilePicture);
   const occupation = useRef();
   const interest = useRef();
-  const profilePicture = useRef("");
   const description = useRef("");
 
   const infoUpdater = async () => {
-    console.log("CAlled Infoupdater unncessarily");
     dispatch({type:"LOADING"});
     const sendObject = {
       id: responseObject.user._id,
       desc: description.current.value,
       occupation : occupation.current.value,
       interests: selectedList,
-      profilePicture: profilePicture.current.value
+      profilePicture: profilePicture
     }
     const headers = {
       "x-access-token": responseObject.token
@@ -38,7 +37,7 @@ export default function MoreInfo({responseObject}) {
     if(occupation.current.value===null || occupation.current.value === undefined || occupation.current.value === ""){
       sendObject.occupation = null
     }
-    if(profilePicture.current.value===null || profilePicture.current.value === undefined || profilePicture.current.value === ""){
+    if(profilePicture===null || profilePicture === undefined || profilePicture === ""){
       sendObject.profilePicture = null
     }
     if(description.current.value===null || description.current.value === undefined || description.current.value === ""){
@@ -79,9 +78,8 @@ export default function MoreInfo({responseObject}) {
     console.log("Success", res);
     dispatch({type:"NOT_LOADING"});
     const imagepath = res.filePath;
-    profilePicture.current.value = imagepath;
+    setProfilePicture(imagepath);
   };
-  // console.log("responseObj:",profilePicture.current.value);
 
   return (
     <div>
@@ -98,14 +96,13 @@ export default function MoreInfo({responseObject}) {
                 alt=""
               />
               <label htmlFor="profileupload">
-                <i className="settingsPPIcon far fa-user-circle" onClick={()=>{dispatch("LOADING")}}></i>{" "}
+                <i className="settingsPPIcon far fa-user-circle" onClick={()=>{dispatch({type:"LOADING"})}}></i>{" "}
               </label>
               <IKUpload
                 id="profileupload"
                 onError={onError}
                 onSuccess={onSuccess}
                 style={{ display: "none" }}
-                // className="settingsPPInput"
               />
             </div>
             <label>Current Role</label>

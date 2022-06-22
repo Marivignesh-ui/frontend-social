@@ -15,13 +15,11 @@ export default function ImagePost({ post }) {
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [commentCount,setCommentCount] = useState(post.comments.length);
 
-  console.log("asfd1!@$%$%$$%", post);
   const headers = {
     "x-access-token": token,
   };
   useEffect(() => {
     const fetchforum = async () => {
-      console.log(post.forum);
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKENDPOINT}forums/forum/${post.forum}`,
@@ -41,7 +39,6 @@ export default function ImagePost({ post }) {
     };
 
     const fetchOwner = async () => {
-      console.log(post.owner);
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_BACKENDPOINT}users/user/${post.owner}`,

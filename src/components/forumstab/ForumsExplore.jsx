@@ -20,7 +20,6 @@ export default function ForumsExplorer() {
       );
       if (res.data.ok) {
         dispatch({ type: "NOT_LOADING" });
-        console.log(res.data.responseObject);
         setForumList(res.data.responseObject);
       } else {
         dispatch({ type: "NOT_LOADING" });
@@ -33,7 +32,6 @@ export default function ForumsExplorer() {
   };
 
   useEffect(() => {
-    console.log(currentCategory);
     fetchForum(currentCategory);
   }, [currentCategory]);
 
@@ -41,7 +39,6 @@ export default function ForumsExplorer() {
     const headers = {
       "x-access-token": token,
     };
-    console.log(headers);
     try {
       dispatch({ type: "LOADING" });
       const res = await axios.put(
@@ -89,7 +86,6 @@ export default function ForumsExplorer() {
   };
 
   const handler = (event) => {
-    console.log("selected value", event.target.value);
     setCurrentCategory(event.target.value);
   };
   return (
